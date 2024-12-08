@@ -24,6 +24,8 @@ Create a .env file at the root of the project with the details provided in the D
 # Step 2:
 npm i
 # Step 3:
+npx prisma generate
+# Step 4:
 npm run dev
 # or
 yarn dev
