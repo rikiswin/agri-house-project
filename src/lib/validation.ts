@@ -1,11 +1,12 @@
 import { z } from "zod";
 
-const validatedEnvSchema = z.object({
-    DATABASE_URL: z.string(),
-    GOOGLE_CLIENT_ID: z.string(),
-    GOOGLE_CLIENT_SECRET: z.string(),
-    NEXTAUTH_URL: z.string(),
-    NEXTAUTH_SECRET: z.string(),
+const requiredString = z.string().min(1, "Required")
+const requiredNumbericString = z.string().min(1, "Required").regex(/^(0|[1-9]\d*(\.\d{1})?|0\.\d{1})$/, "Must be a number")
+
+export const createCricketDataSchema = z.object({
+    cost: requiredNumbericString,
+    type: requiredString,
+    amount: requiredNumbericString
 })
 
-export const env = validatedEnvSchema.parse(process.env)
+export type CreateCricketDataSchema = z.infer<typeof createCricketDataSchema>
