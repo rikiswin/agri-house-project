@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +16,12 @@ import { Input } from "@/components/ui/input";
 import { createCricketDataSchema } from "@/lib/validation";
 import { addCricketData } from "@/server/api/cricketData/actions";
 
-export default function TestForm() {
+// This form is using the ShadCn Form Component which uses React Hook Form under the hood
+// https://ui.shadcn.com/docs/components/form
+// Data is done through Zod which can be used to validate on both the Frontend and Backend
+// https://zod.dev/ 
+
+export default function AddCricketDataForm() {
   const form = useForm<z.infer<typeof createCricketDataSchema>>({
     resolver: zodResolver(createCricketDataSchema),
   });

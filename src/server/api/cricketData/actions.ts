@@ -1,7 +1,7 @@
 "use server"
 import { authOptions } from "@/lib/authOptions"
 import prisma from "@/lib/db/prisma"
-import { createCricketDataSchema, CreateCricketDataSchema } from "@/lib/validation"
+import {  CreateCricketDataSchema } from "@/lib/validation"
 import { getServerSession } from "next-auth"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
