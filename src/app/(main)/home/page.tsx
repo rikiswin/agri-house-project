@@ -1,5 +1,6 @@
-import { getCricketData } from "@/server/api/cricketData/actions";
+
 import { authOptions } from "@/lib/authOptions";
+import { getCricketData } from "@/lib/db/cricketData";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
