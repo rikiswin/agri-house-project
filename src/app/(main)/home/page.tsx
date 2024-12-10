@@ -27,6 +27,7 @@ export default async function page() {
                   id="cricketDataId"
                   name="cricketDataId"
                   hidden
+                  readOnly
                   value={data.id}
                 />
                 <Button>
