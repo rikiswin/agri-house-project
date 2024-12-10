@@ -1,6 +1,7 @@
+"use server"
 import { authOptions } from "@/lib/authOptions"
 import prisma from "@/lib/db/prisma"
-import {  CreateCricketDataSchema } from "@/lib/validation"
+import { CreateCricketDataSchema } from "@/lib/validation"
 import { getServerSession } from "next-auth"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
@@ -32,4 +33,21 @@ export async function getCricketData() {
     const cricketData = await prisma.cricketFeedData.findMany()
 
     return cricketData
+}
+
+export async function deleteCricketData(formData: FormData) {
+    const session = await getServerSession(authOptions)
+    if (!session) { return }
+
+    const cricketDataId = formData.get("cricketDataId")?.toString()
+
+    if (!cricketDataId) return
+
+    await prisma.cricketFeedData.delete({
+        where: {
+            id: cricketDataId
+        }
+    })
+
+    revalidatePath("/home")
 }
