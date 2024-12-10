@@ -3,8 +3,6 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SessionProvider from "./SessionProvider";
 import Navbar from "@/components/Navbar/Navbar";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,19 +20,18 @@ export const metadata: Metadata = {
   description: "AI-driven Data Insights",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-          {session && <Navbar />}
+         <Navbar />
           <main>{children}</main>
         </SessionProvider>
       </body>

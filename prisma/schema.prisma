@@ -14,10 +14,20 @@ datasource db {
 }
 
 model CricketFeedData {
-  id     String @id @default(auto()) @map("_id") @db.ObjectId
-  cost   Int
-  type   String
-  amount Int
+  id               String    @id @default(auto()) @map("_id") @db.ObjectId
+  breedingPenCode  String
+  cricketType      String
+  productionCycle  Int
+  feedAmountUsed   Int
+  feedSource       String
+  harvestStartDate DateTime
+  harvestEndDate   DateTime?
+  cycleStatus      String
+  cycleAge         Int
+  feedConsumption  Int
+  cricketYield     Int
+  comment          String?
+
   userId String @db.ObjectId
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
