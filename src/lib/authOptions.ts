@@ -3,8 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { NextAuthOptions } from "next-auth"
 import { Adapter } from "next-auth/adapters"
 import Google from "next-auth/providers/google"
-import { env } from "./validation"
-
+import { env } from "./envValidation"
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma) as Adapter,
@@ -18,6 +17,9 @@ export const authOptions: NextAuthOptions = {
         session({ session, user }) {
             session.user.id = user.id
             return session;
-        }
+        },
+        redirect({ baseUrl }) {
+            return baseUrl
+        },
     },
 }

@@ -1,11 +1,16 @@
-import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/authOptions";
 import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import AddCricketDataForm from "@/components/AddCricketDataForm";
 
 export default async function page() {
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/login");
   }
-  redirect("/home");
+  return (
+    <div className="flex min-h-screen flex-col">
+      <AddCricketDataForm />
+    </div>
+  );
 }
