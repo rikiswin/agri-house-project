@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createCricketDataSchema } from "@/lib/validation";
-import { addCricketData } from "@/server/api/cricketData/actions";
+import { addCricketData } from "@/lib/db/cricketData";
+
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
 // https://ui.shadcn.com/docs/components/form

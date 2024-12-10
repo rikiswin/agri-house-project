@@ -1,4 +1,3 @@
-"use server"
 import { authOptions } from "@/lib/authOptions"
 import prisma from "@/lib/db/prisma"
 import {  CreateCricketDataSchema } from "@/lib/validation"
