@@ -6,6 +6,9 @@ const validatedEnvSchema = z.object({
     GOOGLE_CLIENT_SECRET: z.string(),
     NEXTAUTH_URL: z.string(),
     NEXTAUTH_SECRET: z.string(),
+    MONGODB_URI: z.string(),
+    COLL_NAME: z.string(),
+    DB_NAME: z.string()
 })
 
 export const env = validatedEnvSchema.parse(process.env)

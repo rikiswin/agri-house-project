@@ -29,11 +29,7 @@ export default async function Navbar() {
       <div className="mx-auto flex w-full max-w-4xl justify-between">
         <div className="flex items-center gap-5">
           {menuOptions.map((option, index) => (
-            <Link
-              className={`${(option.name == "Chat" || option.name == "Train") && "hover:cursor-not-allowed"}`}
-              key={index}
-              href={`${(option.name == "Chat" || option.name == "Train") ? "/" : option.link}`}
-            >
+            <Link key={index} href={option.link}>
               {option.name}
             </Link>
           ))}
