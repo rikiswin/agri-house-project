@@ -15,6 +15,7 @@ export default function Home() {
     <main>
       <div className="items-center justify-between p-24">
         <FilePond
+          labelIdle='<b>*ONLY PDF Files*</b> Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
           allowMultiple={false}
           credits={false}
           server={{
