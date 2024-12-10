@@ -26,7 +26,7 @@ export default function UserProfileButton({ session }: UserProfileButtonProps) {
           alt="User Image"
           height={40}
           width={40}
-          className="rounded-full border-2 border-black transition-all duration-300 hover:cursor-pointer hover:brightness-90"
+          className="h-fit rounded-full border-2 border-black transition-all duration-300 hover:cursor-pointer hover:brightness-90"
           src={session?.user?.image || placeholderImage}
         />
       </DropdownMenuTrigger>

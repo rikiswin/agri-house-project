@@ -17,11 +17,13 @@ export default async function page() {
         {cricketData && cricketData.length > 0 ? (
           cricketData.map((data) => (
             <div key={data.id} className="flex gap-5">
-              <div>
-                <p>Cost: {data.cost}</p>
-                <p>Type: {data.type}</p>
-                <p>Amount: {data.amount}</p>
-              </div>
+              <pre
+                className="max-w-2xl whitespace-pre-wrap break-all"
+                id="json"
+              >
+                {JSON.stringify(cricketData)}
+              </pre>
+
               <form action={deleteCricketData} className="flex items-center">
                 <input
                   id="cricketDataId"

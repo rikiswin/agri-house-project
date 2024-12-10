@@ -1,6 +1,7 @@
 import { DirectoryLoader } from "langchain/document_loaders/fs/directory";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { promises as fs } from 'fs';
 
 import { embeddingsInstance, searchArgs } from '@/lib/openai';
 import { MongoDBAtlasVectorSearch } from '@langchain/community/vectorstores/mongodb_atlas';
@@ -19,6 +20,9 @@ export async function POST(request: Request) {
             // Parse the data from uploaded file
             const uploadedFile = uploadedFiles[0]
             if (uploadedFile instanceof File) {
+                const tempFilePath = `/tmp/${uploadedFile.name}`;
+                const fileBuffer = Buffer.from(await uploadedFile.arrayBuffer());
+                await fs.writeFile(tempFilePath, fileBuffer);
 
                 const directoryLoader = new DirectoryLoader("/tmp/", {
                     ".pdf": (path) => new PDFLoader(path),

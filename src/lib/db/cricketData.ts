@@ -11,14 +11,22 @@ export async function addCricketData(formData: CreateCricketDataSchema) {
     if (!session) { return }
     const userId = session.user.id
 
-    const { amount, cost, type } = formData
+    const { breedingPenCode, cricketType, cricketYield, cycleAge, cycleStatus, feedAmountUsed, feedConsumption, feedSource, productionCycle, comment, harvestEndDate, harvestStartDate } = formData
 
     await prisma.cricketFeedData.create({
         data: {
             userId,
-            cost: parseInt(cost),
-            type: type,
-            amount: parseInt(amount)
+            breedingPenCode,
+            cricketType,
+            cricketYield: parseInt(cricketYield),
+            cycleAge: parseInt(cycleAge),
+            cycleStatus,
+            feedAmountUsed: parseInt(feedAmountUsed),
+            feedConsumption: parseInt(feedConsumption),
+            feedSource, productionCycle: parseInt(productionCycle),
+            comment,
+            harvestEndDate,
+            harvestStartDate,
         }
     })
 
