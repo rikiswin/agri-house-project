@@ -9,7 +9,7 @@ export default async function page() {
     redirect("/login");
   }
   return (
-    <div className="flex min-h-screen flex-col pt-28 pb-6">
+    <div className="flex min-h-screen flex-col px-4 lg:px-0 pt-28 pb-6">
       <AddCricketDataForm />
     </div>
   );

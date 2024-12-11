@@ -15,7 +15,7 @@ export default function Home() {
   }, [messages]);
 
   return (
-    <div className="absolute bottom-12 left-0 right-0 mx-auto flex h-full max-h-[80vh] w-full max-w-3xl flex-col justify-end text-black">
+    <div className="absolute px-4 bottom-12 left-0 right-0 mx-auto flex h-full max-h-[80vh] w-full max-w-3xl flex-col justify-end text-black">
       <div
         ref={scrollRef}
         className="bottom-0 flex-col-reverse overflow-y-scroll"

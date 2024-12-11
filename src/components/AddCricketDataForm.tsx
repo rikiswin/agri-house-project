@@ -42,7 +42,7 @@ export default function AddCricketDataForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="m-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
       >
-        <h1 className="text-4xl font-extrabold tracking-tight text-black lg:text-5xl">
+        <h1 className="text-3xl font-extrabold tracking-tight text-black lg:text-4xl">
           Cricket Feed
         </h1>
         <FormField
