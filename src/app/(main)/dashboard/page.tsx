@@ -54,6 +54,7 @@ export default async function Dashboard() {
       <div className="m-auto flex flex-col items-center justify-center gap-5">
         {/* NOTE: We can use these values to create markers on the map library. But
         we need to first uncomment latitude and longitude from the Schema. */}
+        {/* TODO: Add map library here */}
         <h1>List of Cricket Farms</h1>
         {cricketFarms && cricketFarms.length > 0 ? (
           cricketFarms.map((data) => (
