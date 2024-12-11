@@ -13,10 +13,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model CricketFarm {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  location String
+  // TODO: After implementing a map library these Latitude and Longitude values will be used to place the markers for cricket farm locations
+  // latitude        Float
+  // longitude       Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  BreedingPen BreedingPen[]
+
+  @@map("cricketFarm")
+}
+
+model BreedingPen {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  breedingPenCode String
+  cricketType     String
+
+  cricketFarmId   String            @db.ObjectId
+  cricketFarm     CricketFarm       @relation(fields: [cricketFarmId], references: [id], onDelete: Cascade)
+  CricketFeedData CricketFeedData[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("breedingPen")
+}
+
 model CricketFeedData {
   id               String    @id @default(auto()) @map("_id") @db.ObjectId
-  breedingPenCode  String
-  cricketType      String
   productionCycle  Int
   feedAmountUsed   Int
   feedSource       String
@@ -28,8 +56,10 @@ model CricketFeedData {
   cricketYield     Int
   comment          String?
 
-  userId String @db.ObjectId
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  BreedingPen   BreedingPen? @relation(fields: [breedingPenId], references: [id])
+  breedingPenId String       @db.ObjectId
+  userId        String       @db.ObjectId
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

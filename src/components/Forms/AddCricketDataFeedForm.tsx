@@ -14,26 +14,45 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { createCricketDataSchema } from "@/lib/validation";
-import { addCricketData } from "@/lib/db/cricketData";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { addCricketFeedData } from "@/lib/db/cricketData";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "./ui/calendar";
+import { Calendar } from "../ui/calendar";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import FormSubmitButton from "../FormSubmitButton";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BreedingPen } from "@prisma/client";
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
 // https://ui.shadcn.com/docs/components/form
-// Data is done through Zod which can be used to validate on both the Frontend and Backend
+// Data validation is done through Zod which can be used to validate on both the Frontend and Backend
 // https://zod.dev/
 
-export default function AddCricketDataForm() {
+interface AddCricketDataFeedFormProps {
+  breedingPens: BreedingPen[] | undefined;
+}
+
+export default function AddCricketDataFeedForm({
+  breedingPens,
+}: AddCricketDataFeedFormProps) {
   const form = useForm<z.infer<typeof createCricketDataSchema>>({
     resolver: zodResolver(createCricketDataSchema),
   });
 
+  const {
+    formState: { isSubmitting },
+  } = form;
+
   async function onSubmit(values: z.infer<typeof createCricketDataSchema>) {
-    console.log(values);
-    await addCricketData(values)
+
+    // await addCricketFeedData(values);
   }
 
   return (
@@ -42,33 +61,43 @@ export default function AddCricketDataForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="m-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
       >
-        <h1 className="text-3xl font-extrabold tracking-tight text-black lg:text-4xl">
-          Cricket Feed
+        <h1 className="text-xl font-extrabold tracking-tight text-black lg:text-4xl">
+          Add Cricket Feed Data
         </h1>
         <FormField
           control={form.control}
-          name="breedingPenCode"
+          name="breedingPenId"
           render={({ field }) => (
             <FormItem className="w-full">
               <FormLabel>Breeding Pen Code</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="Enter the code of breeding pen"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="cricketType"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Cricket Type</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter the type cricket" {...field} />
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger
+                      disabled={!breedingPens || breedingPens.length < 1}
+                    >
+                      <SelectValue
+                        placeholder={
+                          breedingPens && breedingPens.length > 0
+                            ? "Select a breeding pen"
+                            : "No breeding pen exists. Please create a breeding pen"
+                        }
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {breedingPens &&
+                      breedingPens.length > 0 &&
+                      breedingPens.map((breedingPen) => (
+                        <SelectItem key={breedingPen.id} value={breedingPen.id}>
+                          {breedingPen.breedingPenCode}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -182,7 +211,7 @@ export default function AddCricketDataForm() {
           control={form.control}
           name="harvestStartDate"
           render={({ field }) => (
-            <FormItem className="w-full flex flex-col">
+            <FormItem className="flex w-full flex-col">
               <FormLabel>Harvest Start Date</FormLabel>
               <FormControl>
                 <Popover>
@@ -197,7 +226,7 @@ export default function AddCricketDataForm() {
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Pick harvest start date</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -223,7 +252,7 @@ export default function AddCricketDataForm() {
           control={form.control}
           name="harvestEndDate"
           render={({ field }) => (
-            <FormItem className="w-full flex flex-col">
+            <FormItem className="flex w-full flex-col">
               <FormLabel>Harvest End Date</FormLabel>
               <FormControl>
                 <Popover>
@@ -238,7 +267,7 @@ export default function AddCricketDataForm() {
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Pick harvest end date</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -260,7 +289,13 @@ export default function AddCricketDataForm() {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">Submit</Button>
+        <FormSubmitButton
+          isLoading={isSubmitting}
+          className="w-full"
+          type="submit"
+        >
+          Submit
+        </FormSubmitButton>
       </form>
     </Form>
   );

@@ -4,7 +4,7 @@ import { useChat } from "ai/react";
 import { Bot, User } from "lucide-react";
 import { useEffect, useRef } from "react";
 
-export default function Home() {
+export default function ChatPage() {
   const { messages, input, handleInputChange, handleSubmit } = useChat();
   const scrollRef = useRef<HTMLDivElement>(null);
 

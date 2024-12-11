@@ -13,12 +13,8 @@ export default async function Navbar() {
   const session = await getServerSession(authOptions);
   const menuOptions = [
     {
-      name: "Home",
-      link: "/",
-    },
-    {
-      name: "Add Cricket Data",
-      link: "/cricket/add",
+      name: "Dashboard",
+      link: "/dashboard",
     },
     {
       name: "Chat",
@@ -56,7 +52,7 @@ export default async function Navbar() {
       <div className="mx-auto flex w-full max-w-4xl items-center justify-end lg:justify-between">
         <div className="hidden items-center gap-5 lg:flex">
           <Link
-            href={"/"}
+            href={"/dashboard"}
             prefetch={false}
             className="rounded-full border-2 hover:brightness-90"
           >
