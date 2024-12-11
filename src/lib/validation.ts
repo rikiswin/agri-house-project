@@ -21,9 +21,8 @@ export type CreateCricketDataSchema = z.infer<typeof createCricketDataSchema>
 
 export const createCricketFarmDataSchema = z.object({
     location: requiredString,
-    // NOTE: we need lat and lon values for creating markers on the mapping library
-    // latitude: requiredNumbericString,
-    // longitude: requiredNumbericString,
+    latitude: z.coerce.number().min(-90).max(90),
+    longitude: z.coerce.number().min(-90).max(90),
 })
 
 export type CreateCricketFarmDataSchema = z.infer<typeof createCricketFarmDataSchema>

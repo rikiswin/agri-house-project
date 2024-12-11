@@ -66,11 +66,13 @@ export async function addCricketFarm(formData: CreateCricketFarmDataSchema) {
     const session = await getServerSession(authOptions)
     if (!session) { return }
 
-    const { location } = formData
+    const { location, latitude, longitude } = formData
 
     await prisma.cricketFarm.create({
         data: {
-            location
+            location,
+            latitude,
+            longitude
         }
     })
 

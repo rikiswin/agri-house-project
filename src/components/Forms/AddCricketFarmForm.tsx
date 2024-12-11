@@ -22,7 +22,7 @@ import FormSubmitButton from "../FormSubmitButton";
 // Data validation is done through Zod which can be used to validate on both the Frontend and Backend
 // https://zod.dev/
 
-export default function AddFarmForm() {
+export default function AddCricketFarmForm() {
   const router = useRouter();
   const form = useForm<z.infer<typeof createCricketFarmDataSchema>>({
     resolver: zodResolver(createCricketFarmDataSchema),
@@ -59,8 +59,39 @@ export default function AddFarmForm() {
             </FormItem>
           )}
         />
+                <FormField
+          control={form.control}
+          name="longitude"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Longitude</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the longitude" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="latitude"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Latitude</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the latitude" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <FormSubmitButton isLoading={isSubmitting} className="w-full" type="submit">
+
+        <FormSubmitButton
+          isLoading={isSubmitting}
+          className="w-full"
+          type="submit"
+        >
           Submit
         </FormSubmitButton>
       </form>

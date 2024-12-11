@@ -4,7 +4,7 @@ import { getCricketFarmData } from "@/lib/db/cricketData";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
-import AddFarmForm from "@/components/Forms/AddFarmForm";
+import AddCricketFarmForm from "@/components/Forms/AddCricketFarmForm";
 import Link from "next/link";
 
 export default async function Dashboard() {
@@ -46,7 +46,7 @@ export default async function Dashboard() {
             </Button>
           </SheetTrigger>
           <SheetContent side="bottom">
-            <AddFarmForm />
+            <AddCricketFarmForm />
           </SheetContent>
         </Sheet>
       </div>
