@@ -9,7 +9,7 @@ import { redirect } from "next/navigation"
 
 // Convenience Types for Type Safety
 export type CricketFarmWithBreedingPens = Prisma.CricketFarmGetPayload<{
-    include: { BreedingPen: true };
+    include: { BreedingPen: { include: { CricketFeedData: true } } };
 }>;
 
 // Cricket Feed Data Server Actions

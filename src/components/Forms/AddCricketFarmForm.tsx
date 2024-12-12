@@ -14,8 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { createCricketFarmSchema } from "@/lib/validation";
 import { addCricketFarm } from "@/lib/db/cricketData";
-import { useRouter } from "next/navigation";
 import FormSubmitButton from "../FormSubmitButton";
+import { toast } from "react-toastify";
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
 // https://ui.shadcn.com/docs/components/form
@@ -23,7 +23,6 @@ import FormSubmitButton from "../FormSubmitButton";
 // https://zod.dev/
 
 export default function AddCricketFarmForm() {
-  const router = useRouter();
   const form = useForm<z.infer<typeof createCricketFarmSchema>>({
     resolver: zodResolver(createCricketFarmSchema),
   });
@@ -34,18 +33,27 @@ export default function AddCricketFarmForm() {
 
   async function onSubmit(values: z.infer<typeof createCricketFarmSchema>) {
     await addCricketFarm(values);
-    router.refresh();
+    toast.success("Successfully Added!");
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="m-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
+        className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
       >
-        <h1 className="text-3xl font-extrabold tracking-tight text-black lg:text-4xl">
+        <h1 className="text-xl font-extrabold tracking-tight text-black md:text-3xl lg:text-4xl">
           Add Cricket Farm
         </h1>
+        <div>
+          <p className="text-lg font-bold tracking-tight text-black">
+            Cambodia Latitude & Longitude
+          </p>
+          <p className="text-lg tracking-tight text-black">Latitude: 12.5657</p>
+          <p className="text-lg tracking-tight text-black">
+            Longitude: 104.9910
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="location"
@@ -54,19 +62,6 @@ export default function AddCricketFarmForm() {
               <FormLabel>Farm Location</FormLabel>
               <FormControl>
                 <Input placeholder="Enter the farm location" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-                <FormField
-          control={form.control}
-          name="longitude"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Longitude</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter the longitude" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,7 +80,19 @@ export default function AddCricketFarmForm() {
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="longitude"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Longitude</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the longitude" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormSubmitButton
           isLoading={isSubmitting}

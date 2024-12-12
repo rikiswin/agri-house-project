@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "../globals.css";
 import SessionProvider from "./SessionProvider";
 import Navbar from "@/components/Navbar/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -17,10 +19,11 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: {
-    template: 'AgriHouse | %s',
-    default: 'AgriHouse',
+    template: "AgriHouse | %s",
+    default: "AgriHouse",
   },
-  description: "AI-driven Data Insights",};
+  description: "AI-driven Data Insights",
+};
 
 export default function RootLayout({
   children,
@@ -33,7 +36,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionProvider>
-         <Navbar />
+          <Navbar />
+          <ToastContainer />
           <main>{children}</main>
         </SessionProvider>
       </body>

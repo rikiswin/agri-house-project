@@ -29,6 +29,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BreedingPen } from "@prisma/client";
+import { toast } from "react-toastify";
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
 // https://ui.shadcn.com/docs/components/form
@@ -51,17 +52,17 @@ export default function AddCricketDataFeedForm({
   } = form;
 
   async function onSubmit(values: z.infer<typeof createCricketFeedDataSchema>) {
-
     await addCricketFeedData(values);
+    toast.success("Successfully Added!");
   }
 
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="m-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
+        className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8"
       >
-        <h1 className="text-xl font-extrabold tracking-tight text-black lg:text-4xl">
+        <h1 className="text-xl font-extrabold tracking-tight text-black md:text-3xl lg:text-4xl">
           Add Cricket Feed Data
         </h1>
         <FormField

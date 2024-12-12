@@ -19,7 +19,7 @@ export default function EditCricketFarmSheet({
     <Sheet>
       <SheetTrigger asChild>
         <Button className="bg-orange-600 hover:bg-orange-500">
-          Edit Farm <Pen />
+          <span className="hidden md:flex">Edit Farm</span> <Pen />
         </Button>
       </SheetTrigger>
       <SheetContent onOpenAutoFocus={(e) => e.preventDefault()} side="bottom">
