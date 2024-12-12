@@ -12,9 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createCricketFarmSchema } from "@/lib/validation";
-import { addCricketFarm } from "@/lib/db/cricketData";
-import { useRouter } from "next/navigation";
+import { updateCricketFarmSchema } from "@/lib/validation";
+import {
+  CricketFarmWithBreedingPens,
+  updateCricketFarm,
+} from "@/lib/db/cricketData";
 import FormSubmitButton from "../FormSubmitButton";
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
@@ -22,19 +24,31 @@ import FormSubmitButton from "../FormSubmitButton";
 // Data validation is done through Zod which can be used to validate on both the Frontend and Backend
 // https://zod.dev/
 
-export default function AddCricketFarmForm() {
-  const router = useRouter();
-  const form = useForm<z.infer<typeof createCricketFarmSchema>>({
-    resolver: zodResolver(createCricketFarmSchema),
+interface EditCricketFarmFormProps {
+  cricketFarmId: string;
+  cricketFarmValues: CricketFarmWithBreedingPens | null;
+}
+
+export default function EditCricketFarmForm({
+  cricketFarmId,
+  cricketFarmValues,
+}: EditCricketFarmFormProps) {
+  const form = useForm<z.infer<typeof updateCricketFarmSchema>>({
+    resolver: zodResolver(updateCricketFarmSchema),
+    defaultValues: {
+      id: cricketFarmId,
+      latitude: cricketFarmValues?.latitude,
+      longitude: cricketFarmValues?.longitude,
+      location: cricketFarmValues?.location,
+    },
   });
 
   const {
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: z.infer<typeof createCricketFarmSchema>) {
-    await addCricketFarm(values);
-    router.refresh();
+  async function onSubmit(values: z.infer<typeof updateCricketFarmSchema>) {
+    await updateCricketFarm(values);
   }
 
   return (
@@ -44,29 +58,16 @@ export default function AddCricketFarmForm() {
         className="m-auto flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8"
       >
         <h1 className="text-3xl font-extrabold tracking-tight text-black lg:text-4xl">
-          Add Cricket Farm
+          Edit Cricket Farm
         </h1>
         <FormField
           control={form.control}
           name="location"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Farm Location</FormLabel>
+              <FormLabel>Location</FormLabel>
               <FormControl>
-                <Input placeholder="Enter the farm location" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-                <FormField
-          control={form.control}
-          name="longitude"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Longitude</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter the longitude" {...field} />
+                <Input placeholder="Enter the location" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,8 +86,19 @@ export default function AddCricketFarmForm() {
             </FormItem>
           )}
         />
-
-
+        <FormField
+          control={form.control}
+          name="longitude"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Longitude</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the longitude" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormSubmitButton
           isLoading={isSubmitting}
           className="w-full"

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
-import SessionProvider from "./SessionProvider";
-import Navbar from "@/components/Navbar/Navbar";
+
 
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
@@ -16,11 +15,9 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: 'AgriHouse | %s',
-    default: 'AgriHouse',
-  },
-  description: "AI-driven Data Insights",};
+  title: "AgriHouse | Login",
+  description: "AI-driven Data Insights",
+};
 
 export default function RootLayout({
   children,
@@ -32,10 +29,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-         <Navbar />
-          <main>{children}</main>
-        </SessionProvider>
+        <main>{children}</main>
       </body>
     </html>
   );

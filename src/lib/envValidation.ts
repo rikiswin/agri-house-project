@@ -8,7 +8,8 @@ const validatedEnvSchema = z.object({
     NEXTAUTH_SECRET: z.string(),
     MONGODB_URI: z.string(),
     COLL_NAME: z.string(),
-    DB_NAME: z.string()
+    DB_NAME: z.string(),
+    NEXT_PUBLIC_MAPBOX_API_KEY: z.string()
 })
 
 export const env = validatedEnvSchema.parse(process.env)

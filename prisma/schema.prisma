@@ -55,7 +55,7 @@ model CricketFeedData {
   cricketYield     Int
   comment          String?
 
-  BreedingPen   BreedingPen? @relation(fields: [breedingPenId], references: [id])
+  BreedingPen   BreedingPen? @relation(fields: [breedingPenId], references: [id], onDelete: Cascade)
   breedingPenId String       @db.ObjectId
   userId        String       @db.ObjectId
   user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)

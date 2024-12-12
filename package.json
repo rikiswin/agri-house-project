@@ -32,6 +32,8 @@
     "fs": "^0.0.1-security",
     "langchain": "^0.3.6",
     "lucide-react": "^0.468.0",
+    "mapbox-gl": "^3.7.0",
+    "react-map-gl": "^7.1.7",
     "mongodb": "^6.11.0",
     "next": "14.2.14",
     "next-auth": "^4.24.11",

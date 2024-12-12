@@ -26,7 +26,6 @@ export async function POST(req: Request) {
         const retriever = vectorStore.asRetriever({
             k: 10,
             searchType: 'mmr',
-            verbose: true,
         })
 
 

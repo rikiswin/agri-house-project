@@ -47,7 +47,7 @@ export async function POST(request: Request) {
 
                 const splitDocs = await textSplitter.splitDocuments(directoryDocs);
 
-                console.log(splitDocs);
+                // console.log(splitDocs);
 
 
 

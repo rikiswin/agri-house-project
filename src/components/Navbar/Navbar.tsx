@@ -26,7 +26,7 @@ export default async function Navbar() {
     },
   ];
   return (
-    <header className="fixed top-0 mx-auto flex min-h-12 w-full items-center border-b bg-slate-50 px-5 py-2">
+    <header className="fixed z-50 top-0 mx-auto flex min-h-12 w-full items-center border-b bg-slate-50 px-5 py-2">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="lg:hidden">

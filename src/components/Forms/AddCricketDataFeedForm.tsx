@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createCricketDataSchema } from "@/lib/validation";
+import { createCricketFeedDataSchema } from "@/lib/validation";
 import { addCricketFeedData } from "@/lib/db/cricketData";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { CalendarIcon } from "lucide-react";
@@ -42,17 +42,17 @@ interface AddCricketDataFeedFormProps {
 export default function AddCricketDataFeedForm({
   breedingPens,
 }: AddCricketDataFeedFormProps) {
-  const form = useForm<z.infer<typeof createCricketDataSchema>>({
-    resolver: zodResolver(createCricketDataSchema),
+  const form = useForm<z.infer<typeof createCricketFeedDataSchema>>({
+    resolver: zodResolver(createCricketFeedDataSchema),
   });
 
   const {
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: z.infer<typeof createCricketDataSchema>) {
+  async function onSubmit(values: z.infer<typeof createCricketFeedDataSchema>) {
 
-    // await addCricketFeedData(values);
+    await addCricketFeedData(values);
   }
 
   return (

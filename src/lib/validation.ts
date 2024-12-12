@@ -1,9 +1,12 @@
 import { z } from "zod";
 
+// Convenience values
 const requiredString = z.string().min(1, "Required")
 const requiredNumbericString = z.string().min(1, "Required").regex(/^(0|[1-9]\d*(\.\d{1})?|0\.\d{1})$/, "Must be a number")
 
-export const createCricketDataSchema = z.object({
+
+// Cricket Feed Data Validation
+export const createCricketFeedDataSchema = z.object({
     productionCycle: requiredNumbericString,
     feedSource: requiredString,
     feedAmountUsed: requiredNumbericString,
@@ -16,21 +19,27 @@ export const createCricketDataSchema = z.object({
     comment: z.string().optional(),
     breedingPenId: requiredString
 })
+export type CreateCricketFeedDataSchema = z.infer<typeof createCricketFeedDataSchema>
 
-export type CreateCricketDataSchema = z.infer<typeof createCricketDataSchema>
 
-export const createCricketFarmDataSchema = z.object({
+// Cricket Farm Validation
+export const createCricketFarmSchema = z.object({
     location: requiredString,
     latitude: z.coerce.number().min(-90).max(90),
-    longitude: z.coerce.number().min(-90).max(90),
+    longitude: z.coerce.number().min(-180).max(180),
 })
+export type CreateCricketFarmSchema = z.infer<typeof createCricketFarmSchema>
 
-export type CreateCricketFarmDataSchema = z.infer<typeof createCricketFarmDataSchema>
+export const updateCricketFarmSchema = createCricketFarmSchema.extend({
+    id: z.string().min(1)
+})
+export type UpdateCricketFarmSchema = z.infer<typeof updateCricketFarmSchema>
 
-export const createBreedingPenDataSChema = z.object({
+
+// Breeding Pen Validation
+export const createBreedingPenSchema = z.object({
     breedingPenCode: requiredString,
     cricketType: requiredString,
     cricketFarmId: requiredString
 })
-
-export type CreateBreedingPenDataSChema = z.infer<typeof createBreedingPenDataSChema>
+export type CreateBreedingPenSchema = z.infer<typeof createBreedingPenSchema>

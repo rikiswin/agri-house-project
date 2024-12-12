@@ -12,9 +12,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createBreedingPenDataSChema } from "@/lib/validation";
-import { addBreedingPenWithFarmId, addCricketFarm } from "@/lib/db/cricketData";
-import { useRouter } from "next/navigation";
+import { createBreedingPenSchema } from "@/lib/validation";
+import { addBreedingPenWithFarmId } from "@/lib/db/cricketData";
 import FormSubmitButton from "../FormSubmitButton";
 
 // This form is using the ShadCn Form Component which uses React Hook Form under the hood
@@ -29,9 +28,8 @@ interface AddBreedingPenFormProps {
 export default function AddBreedingPenForm({
   cricketFarmId,
 }: AddBreedingPenFormProps) {
-  const router = useRouter();
-  const form = useForm<z.infer<typeof createBreedingPenDataSChema>>({
-    resolver: zodResolver(createBreedingPenDataSChema),
+  const form = useForm<z.infer<typeof createBreedingPenSchema>>({
+    resolver: zodResolver(createBreedingPenSchema),
     defaultValues: { cricketFarmId: cricketFarmId },
   });
 
@@ -39,7 +37,7 @@ export default function AddBreedingPenForm({
     formState: { isSubmitting },
   } = form;
 
-  async function onSubmit(values: z.infer<typeof createBreedingPenDataSChema>) {
+  async function onSubmit(values: z.infer<typeof createBreedingPenSchema>) {
 
     await addBreedingPenWithFarmId(values)
   }

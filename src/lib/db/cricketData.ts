@@ -1,13 +1,19 @@
 "use server"
 import { authOptions } from "@/lib/authOptions"
 import prisma from "@/lib/db/prisma"
-import { CreateBreedingPenDataSChema, CreateCricketDataSchema, CreateCricketFarmDataSchema } from "@/lib/validation"
+import { CreateBreedingPenSchema, CreateCricketFeedDataSchema, CreateCricketFarmSchema, UpdateCricketFarmSchema } from "@/lib/validation"
+import { Prisma } from "@prisma/client"
 import { getServerSession } from "next-auth"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
+// Convenience Types for Type Safety
+export type CricketFarmWithBreedingPens = Prisma.CricketFarmGetPayload<{
+    include: { BreedingPen: true };
+}>;
+
 // Cricket Feed Data Server Actions
-export async function addCricketFeedData(formData: CreateCricketDataSchema) {
+export async function addCricketFeedData(formData: CreateCricketFeedDataSchema) {
     const session = await getServerSession(authOptions)
     if (!session) { return }
     const userId = session.user.id
@@ -62,7 +68,7 @@ export async function deleteCricketData(formData: FormData) {
 }
 
 // Cricket Farm Server Actions
-export async function addCricketFarm(formData: CreateCricketFarmDataSchema) {
+export async function addCricketFarm(formData: CreateCricketFarmSchema) {
     const session = await getServerSession(authOptions)
     if (!session) { return }
 
@@ -80,13 +86,52 @@ export async function addCricketFarm(formData: CreateCricketFarmDataSchema) {
     redirect("/dashboard")
 }
 
-export async function getCricketFarmData() {
+export async function getCricketAllFarmData() {
     const session = await getServerSession(authOptions)
     if (!session) { return }
 
-    const cricketFarmData = await prisma.cricketFarm.findMany()
+    const cricketFarmData = await prisma.cricketFarm.findMany({
+        include: {
+            BreedingPen: { include: { CricketFeedData: true } }
+        }
+    })
 
     return cricketFarmData
+}
+
+export async function getCricketFarmData(id: string): Promise<CricketFarmWithBreedingPens | null> {
+    const session = await getServerSession(authOptions)
+    if (!session) { return null }
+
+    const cricketFarmData = await prisma.cricketFarm.findFirst({
+        where: { id },
+        include: {
+            BreedingPen: { include: { CricketFeedData: true } }
+        }
+    })
+
+    return cricketFarmData
+}
+
+export async function updateCricketFarm(formData: UpdateCricketFarmSchema) {
+    const session = await getServerSession(authOptions)
+    if (!session) { return }
+
+    const { location, latitude, longitude, id } = formData
+
+    await prisma.cricketFarm.update({
+        where: {
+            id
+        },
+        data: {
+            location,
+            latitude,
+            longitude
+        }
+    })
+
+    revalidatePath("/dashboard")
+    redirect("/dashboard")
 }
 
 export async function deleteCricketFarm(formData: FormData) {
@@ -108,7 +153,7 @@ export async function deleteCricketFarm(formData: FormData) {
 }
 
 // Cricket Breeding Pen Server Actions
-export async function addBreedingPenWithFarmId(formData: CreateBreedingPenDataSChema) {
+export async function addBreedingPenWithFarmId(formData: CreateBreedingPenSchema) {
     const session = await getServerSession(authOptions)
     if (!session) { return }
 
