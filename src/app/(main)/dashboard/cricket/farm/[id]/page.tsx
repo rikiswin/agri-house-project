@@ -59,6 +59,9 @@ export default async function CricketFarmPage({
       {/* TODO: Add all the graphs and tables here. Maybe connect this form to a button trigger for a better UI/UX? */}
       {/* NOTE: You can access cricket feed data for use in the graphs and tables via something like:
       cricketFarm?.BreedingPen.map((pen) => pen.CricketFeedData */}
+      <p className="mx-auto justify-center py-3 text-center text-lg font-bold">
+        Placeholder for graphs & tables
+      </p>
       <AddCricketDataFeedForm breedingPens={cricketFarm?.BreedingPen} />
     </div>
   );
