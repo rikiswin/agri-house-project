@@ -1,11 +1,12 @@
 "use client";
 
 import { useChat } from "ai/react";
-import { Bot, User } from "lucide-react";
+import { Bot, Trash2, User } from "lucide-react";
 import { useEffect, useRef } from "react";
 
 export default function ChatPage() {
-  const { messages, input, handleInputChange, handleSubmit } = useChat();
+  const { setMessages, messages, input, handleInputChange, handleSubmit } =
+    useChat();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -15,7 +16,12 @@ export default function ChatPage() {
   }, [messages]);
 
   return (
-    <div className="absolute px-4 bottom-12 left-0 right-0 mx-auto flex h-full max-h-[80vh] w-full max-w-3xl flex-col justify-end text-black">
+    <div className="absolute bottom-12 left-0 right-0 mx-auto flex h-full max-h-[80vh] w-full max-w-3xl flex-col justify-end px-4 text-black">
+      {messages.length == 0 && (
+        <div className="flex h-full w-full flex-col items-center justify-center text-sm text-muted-foreground md:text-base">
+          <Bot /> Ask the AI a question about AgriHouse
+        </div>
+      )}
       <div
         ref={scrollRef}
         className="bottom-0 flex-col-reverse overflow-y-scroll"
@@ -47,6 +53,13 @@ export default function ChatPage() {
           className="flex w-full items-center justify-center space-x-2"
           onSubmit={handleSubmit}
         >
+          <button
+            type="button"
+            onClick={() => setMessages([])}
+            className="inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-sm font-medium hover:bg-[#db5959] hover:text-white disabled:pointer-events-none disabled:opacity-50"
+          >
+            <Trash2 />
+          </button>
           <input
             value={input}
             onChange={handleInputChange}
