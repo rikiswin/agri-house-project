@@ -16,14 +16,6 @@ export default async function Navbar() {
       name: "Dashboard",
       link: "/dashboard",
     },
-    {
-      name: "Chat",
-      link: "/chat",
-    },
-    {
-      name: "Train",
-      link: "/train",
-    },
   ];
   return (
     <header className="fixed z-50 top-0 mx-auto flex min-h-12 w-full items-center border-b bg-slate-50 px-5 py-2">

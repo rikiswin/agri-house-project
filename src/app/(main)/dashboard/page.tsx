@@ -15,9 +15,9 @@ export const metadata: Metadata = {
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/login");
-  }
+  // if (!session) {
+  //   redirect("/login");
+  // }
   const Mapbox = dynamic(() => import("../../../components/Mapbox"), {
     ssr: false,
   });
