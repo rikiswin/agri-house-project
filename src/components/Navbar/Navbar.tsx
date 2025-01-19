@@ -1,7 +1,4 @@
 import React from "react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/authOptions";
-import UserProfileButton from "./UserProfileButton";
 import Link from "next/link";
 import Image from "next/image";
 import AgriHouseLogo from "../../assets/agrihouse-logo.png";
@@ -10,19 +7,10 @@ import { MenuIcon } from "lucide-react";
 import { Button } from "../ui/button";
 
 export default async function Navbar() {
-  const session = await getServerSession(authOptions);
   const menuOptions = [
     {
       name: "Dashboard",
       link: "/dashboard",
-    },
-    {
-      name: "Chat",
-      link: "/chat",
-    },
-    {
-      name: "Train",
-      link: "/train",
     },
   ];
   return (
@@ -75,7 +63,6 @@ export default async function Navbar() {
             </Link>
           ))}
         </div>
-        <UserProfileButton session={session} />
       </div>
     </header>
   );

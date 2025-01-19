@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { authOptions } from "@/lib/authOptions";
 import { getCricketAllFarmData } from "@/lib/db/cricketData";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import AddCricketFarmForm from "@/components/Forms/AddCricketFarmForm";
 import dynamic from "next/dynamic";
@@ -14,10 +11,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Dashboard() {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/login");
-  }
   const Mapbox = dynamic(() => import("../../../components/Mapbox"), {
     ssr: false,
   });

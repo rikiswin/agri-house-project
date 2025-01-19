@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "../globals.css";
-import SessionProvider from "./SessionProvider";
 import Navbar from "@/components/Navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -35,11 +34,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <Navbar />
-          <ToastContainer />
-          <main>{children}</main>
-        </SessionProvider>
+        <Navbar />
+        <ToastContainer />
+        <main>{children}</main>
       </body>
     </html>
   );

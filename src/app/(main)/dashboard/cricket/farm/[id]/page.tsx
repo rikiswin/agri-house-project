@@ -1,6 +1,3 @@
-import { authOptions } from "@/lib/authOptions";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import AddCricketDataFeedForm from "@/components/Forms/AddCricketDataFeedForm";
 import { getCricketFarmData } from "@/lib/db/cricketData";
 import { Plus, Trash2 } from "lucide-react";
@@ -22,10 +19,6 @@ interface CricketFarmProps {
 export default async function CricketFarmPage({
   params: { id },
 }: CricketFarmProps) {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect("/login");
-  }
   const cricketFarm = await getCricketFarmData(id);
 
   return (
