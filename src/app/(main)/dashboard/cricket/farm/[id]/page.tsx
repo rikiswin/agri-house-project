@@ -10,6 +10,7 @@ import EditCricketFarmSheet from "@/components/Sheets/EditCricketFarmSheet";
 import { Metadata } from "next";
 import DeleteCricketFarmForm from "@/components/Forms/DeleteCricketFarmForm";
 import CricketFeedLineChart from "@/components/Graph/CricketFeedLineChart";
+// Our new basic table that expects all feed fields
 import CricketFeedTable from "@/components/Graph/CricketFeedTable";
 
 export const metadata: Metadata = {
@@ -20,27 +21,36 @@ interface CricketFarmProps {
   params: { id: string };
 }
 
-export default async function CricketFarmPage({
-                                                params: { id },
-                                              }: CricketFarmProps) {
+export default async function CricketFarmPage({ params: { id } }: CricketFarmProps) {
   const cricketFarm = await getCricketFarmData(id);
 
   if (!cricketFarm) {
     return <p className="text-center text-red-500">Cricket Farm not found.</p>;
   }
 
-  // Aggregate all cricket feed data across breeding pens
-  const allCricketFeedData = cricketFarm.BreedingPen.flatMap((pen) =>
+  // 1) Create an array for chart data
+  //    each item => { date: string, feedAmount: number }
+  const chartData = cricketFarm.BreedingPen.flatMap((pen) =>
     pen.CricketFeedData.map((feed) => ({
-      date: feed.harvestStartDate.toISOString().split("T")[0], // Format Date as 'YYYY-MM-DD'
+      date: feed.harvestStartDate.toISOString().split("T")[0], // e.g. "2025-01-28"
       feedAmount: feed.feedAmountUsed,
-      // Include other fields if necessary
     }))
   );
 
-  // Sort the data by date
-  allCricketFeedData.sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  // Sort the chart data by date
+  chartData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  // 2) Create an array for the table with FULL feed data
+  //    We'll convert Date fields to strings so the component can render them easily
+  const tableData = cricketFarm.BreedingPen.flatMap((pen) =>
+    pen.CricketFeedData.map((feed) => ({
+      ...feed,
+      // Convert Prisma Date fields to string
+      createdAt: feed.createdAt.toISOString(),
+      updatedAt: feed.updatedAt.toISOString(),
+      harvestStartDate: feed.harvestStartDate.toISOString(),
+      harvestEndDate: feed.harvestEndDate ? feed.harvestEndDate.toISOString() : null,
+    }))
   );
 
   return (
@@ -59,10 +69,7 @@ export default async function CricketFarmPage({
         </Sheet>
 
         {/* Edit Farm Sheet */}
-        <EditCricketFarmSheet
-          cricketFarmId={id}
-          cricketFarmValues={cricketFarm}
-        />
+        <EditCricketFarmSheet cricketFarmId={id} cricketFarmValues={cricketFarm} />
 
         {/* Add Breeding Pen Sheet */}
         <Sheet>
@@ -83,8 +90,8 @@ export default async function CricketFarmPage({
           <h2 className="text-2xl font-semibold mb-4 text-center">
             Cricket Feed Over Time
           </h2>
-          {allCricketFeedData.length > 0 ? (
-            <CricketFeedLineChart data={allCricketFeedData} />
+          {chartData.length > 0 ? (
+            <CricketFeedLineChart data={chartData} />
           ) : (
             <p className="text-center text-gray-500">
               No feed data available to display.
@@ -98,8 +105,8 @@ export default async function CricketFarmPage({
         <h2 className="text-2xl font-semibold mb-4 text-center">
           Cricket Feed Details
         </h2>
-        {allCricketFeedData.length > 0 ? (
-          <CricketFeedTable data={allCricketFeedData} />
+        {tableData.length > 0 ? (
+          <CricketFeedTable data={tableData} />
         ) : (
           <p className="text-center text-gray-500">
             No feed data available to display.
