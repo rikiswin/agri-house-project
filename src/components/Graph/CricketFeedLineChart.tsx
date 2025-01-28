@@ -35,7 +35,7 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
       >
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis label={{ value: 'Feed Amount', angle: -90, position: 'insideLeft' }} />
+        <YAxis label={{ value: 'Feed Amount (grams)', angle: -90, position: 'insideLeft' }} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="feedAmount" stroke="#8884d8" activeDot={{ r: 8 }} />
