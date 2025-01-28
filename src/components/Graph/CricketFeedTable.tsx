@@ -9,6 +9,7 @@ import {
   HeaderGroup,
   ColumnInstance,
   Row,
+  Cell
 } from "react-table";
 
 interface CricketFeedData {
@@ -91,7 +92,7 @@ const CricketFeedTable: React.FC<CricketFeedTableProps> = ({ data }) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()} className="hover:bg-gray-100">
-                {row.cells.map((cell) => (
+                {row.cells.map((cell: Cell<CricketFeedData>) => (
                   <td {...cell.getCellProps()} className="px-4 py-2 border">
                     {cell.render("Cell")}
                   </td>
