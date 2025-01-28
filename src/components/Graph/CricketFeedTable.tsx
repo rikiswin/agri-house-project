@@ -1,9 +1,7 @@
 "use client";
 import React from "react";
 
-// This matches your actual feed data shape (after .toISOString conversion).
 interface CricketFeedDataRow {
-  id: string;
   productionCycle: number;
   feedAmountUsed: number;
   feedSource: string;
@@ -14,9 +12,9 @@ interface CricketFeedDataRow {
   feedConsumption: number;
   cricketYield: number;
   comment?: string | null;
-  breedingPenId: string;
   createdAt: string;
   updatedAt: string;
+  // Removed 'id' and 'breedingPenId' from interface if not used anywhere else
 }
 
 interface CricketFeedTableProps {
@@ -29,7 +27,6 @@ export default function CricketFeedTable({ data }: CricketFeedTableProps) {
       <table className="min-w-full text-left border-collapse border border-slate-200">
         <thead className="bg-slate-100">
         <tr>
-          <th className="px-3 py-2 border border-slate-200">ID</th>
           <th className="px-3 py-2 border border-slate-200">Production Cycle</th>
           <th className="px-3 py-2 border border-slate-200">Feed Amount Used</th>
           <th className="px-3 py-2 border border-slate-200">Feed Source</th>
@@ -40,15 +37,13 @@ export default function CricketFeedTable({ data }: CricketFeedTableProps) {
           <th className="px-3 py-2 border border-slate-200">Feed Consumption</th>
           <th className="px-3 py-2 border border-slate-200">Cricket Yield</th>
           <th className="px-3 py-2 border border-slate-200">Comment</th>
-          <th className="px-3 py-2 border border-slate-200">Breeding Pen ID</th>
           <th className="px-3 py-2 border border-slate-200">Created At</th>
           <th className="px-3 py-2 border border-slate-200">Updated At</th>
         </tr>
         </thead>
         <tbody>
-        {data.map((feed) => (
-          <tr key={feed.id} className="hover:bg-slate-50">
-            <td className="px-3 py-2 border border-slate-200">{feed.id}</td>
+        {data.map((feed, index) => (
+          <tr key={index} className="hover:bg-slate-50">
             <td className="px-3 py-2 border border-slate-200">
               {feed.productionCycle}
             </td>
@@ -74,9 +69,6 @@ export default function CricketFeedTable({ data }: CricketFeedTableProps) {
             </td>
             <td className="px-3 py-2 border border-slate-200">
               {feed.comment || "—"}
-            </td>
-            <td className="px-3 py-2 border border-slate-200">
-              {feed.breedingPenId}
             </td>
             <td className="px-3 py-2 border border-slate-200">
               {new Date(feed.createdAt).toLocaleString()}
