@@ -28,7 +28,7 @@ export default function CricketFeedTable({ data }: CricketFeedTableProps) {
         <thead className="bg-slate-100">
         <tr>
           <th className="px-3 py-2 border border-slate-200">Production Cycle</th>
-          <th className="px-3 py-2 border border-slate-200">Feed Amount Used</th>
+          <th className="px-3 py-2 border border-slate-200">Feed Amount Used (kg)</th>
           <th className="px-3 py-2 border border-slate-200">Feed Source</th>
           <th className="px-3 py-2 border border-slate-200">Harvest Start</th>
           <th className="px-3 py-2 border border-slate-200">Harvest End</th>

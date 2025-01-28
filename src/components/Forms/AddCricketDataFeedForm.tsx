@@ -135,7 +135,7 @@ export default function AddCricketDataFeedForm({
           name="feedAmountUsed"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Feed Amount Used</FormLabel>
+              <FormLabel>Feed Amount Used (kg)</FormLabel>
               <FormControl>
                 <Input placeholder="Enter the feed amount used" {...field} />
               </FormControl>
