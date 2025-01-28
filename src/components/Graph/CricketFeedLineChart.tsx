@@ -23,8 +23,8 @@ interface CricketFeedLineChartProps {
 }
 
 interface CustomTooltipProps {
-  active?: boolean;
-  payload?: any[];
+  active: boolean;
+  payload?: TooltipPayload[];
   label?: string;
 }
 
@@ -33,14 +33,15 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label })
     return (
       <div className="bg-white p-3 border rounded-lg shadow-lg">
         <p className="font-bold text-sm text-gray-600">
-          {new Date(label).toLocaleDateString("en-US", {
+          {label && new Date(label).toLocaleDateString("en-US", {
             year: "numeric",
             month: "short",
             day: "numeric",
           })}
         </p>
         <p className="text-indigo-600 font-semibold">
-          <span className="text-gray-500">Feed Amount:</span> {payload[0].value} grams
+          <span className="text-gray-500">Feed Amount:</span>{" "}
+          {payload[0]?.value} grams
         </p>
       </div>
     );
@@ -97,7 +98,7 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
             value: "Date",
             position: "bottom",
             style: { fill: "#374151", fontSize: 14 },
-            dx: -30
+            dx: -30,
           }}
         />
 
@@ -107,9 +108,8 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
             value: "Feed Amount (grams)",
             angle: -90,
             position: "left",
-            offset: 0,
-            dy: -60,
             style: { fill: "#374151", fontSize: 14 },
+            dy: -60,
           }}
         />
 
@@ -121,8 +121,8 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
           iconType="circle"
           iconSize={10}
           wrapperStyle={{ paddingBottom: 10 }}
-          formatter={() => (
-            <span className="text-gray-600 text-sm">Feed Amount (grams)</span>
+          formatter={(value) => (
+            <span className="text-gray-600 text-sm">Feed Amount</span>
           )}
         />
 
