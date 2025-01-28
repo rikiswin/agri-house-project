@@ -28,6 +28,7 @@ interface CustomTooltipProps {
   label?: string;
 }
 
+// @ts-ignore
 const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
