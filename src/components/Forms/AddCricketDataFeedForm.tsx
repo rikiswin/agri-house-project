@@ -213,7 +213,7 @@ export default function AddCricketDataFeedForm({
           name="harvestStartDate"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
-              <FormLabel>Harvest Start Date</FormLabel>
+              <FormLabel>Feed Date</FormLabel>
               <FormControl>
                 <Popover>
                   <PopoverTrigger asChild>
@@ -227,7 +227,7 @@ export default function AddCricketDataFeedForm({
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
-                        <span>Pick harvest start date</span>
+                        <span>Pick a feed date</span>
                       )}
                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -249,47 +249,47 @@ export default function AddCricketDataFeedForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="harvestEndDate"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col">
-              <FormLabel>Harvest End Date</FormLabel>
-              <FormControl>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground",
-                      )}
-                    >
-                      {field.value ? (
-                        format(field.value, "PPP")
-                      ) : (
-                        <span>Pick harvest end date</span>
-                      )}
-                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    {...field}
-                    className="w-auto p-0"
-                    align="start"
-                  >
-                    <Calendar
-                      selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={field.onChange}
-                      mode="single"
-                    />
-                  </PopoverContent>
-                </Popover>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {/*<FormField*/}
+        {/*  control={form.control}*/}
+        {/*  name="harvestEndDate"*/}
+        {/*  render={({ field }) => (*/}
+        {/*    <FormItem className="flex w-full flex-col">*/}
+        {/*      <FormLabel>Harvest End Date</FormLabel>*/}
+        {/*      <FormControl>*/}
+        {/*        <Popover>*/}
+        {/*          <PopoverTrigger asChild>*/}
+        {/*            <Button*/}
+        {/*              variant={"outline"}*/}
+        {/*              className={cn(*/}
+        {/*                "w-[240px] pl-3 text-left font-normal",*/}
+        {/*                !field.value && "text-muted-foreground",*/}
+        {/*              )}*/}
+        {/*            >*/}
+        {/*              {field.value ? (*/}
+        {/*                format(field.value, "PPP")*/}
+        {/*              ) : (*/}
+        {/*                <span>Pick harvest end date</span>*/}
+        {/*              )}*/}
+        {/*              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />*/}
+        {/*            </Button>*/}
+        {/*          </PopoverTrigger>*/}
+        {/*          <PopoverContent*/}
+        {/*            {...field}*/}
+        {/*            className="w-auto p-0"*/}
+        {/*            align="start"*/}
+        {/*          >*/}
+        {/*            <Calendar*/}
+        {/*              selected={field.value ? new Date(field.value) : undefined}*/}
+        {/*              onSelect={field.onChange}*/}
+        {/*              mode="single"*/}
+        {/*            />*/}
+        {/*          </PopoverContent>*/}
+        {/*        </Popover>*/}
+        {/*      </FormControl>*/}
+        {/*      <FormMessage />*/}
+        {/*    </FormItem>*/}
+        {/*  )}*/}
+        {/*/>*/}
         <FormSubmitButton
           isLoading={isSubmitting}
           className="w-full"
