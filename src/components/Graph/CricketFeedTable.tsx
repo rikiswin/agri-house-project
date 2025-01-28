@@ -1,134 +1,90 @@
-"use client"; // Ensure client-side rendering
+"use client";
 
 import React from "react";
-import {
-  useTable,
-  useSortBy,
-  Column,
-  usePagination,
-  HeaderGroup,
-  ColumnInstance,
-  Row,
-  Cell
-} from "react-table";
 
-interface CricketFeedData {
-  date: string;
-  feedAmount: number;
+/**
+ * Match your Prisma model fields with your TypeScript interface.
+ * Adjust "string | null" vs "Date | null" etc. depending on how you're passing data from the server.
+ */
+export interface CricketFeedData {
+  id: string;
+  productionCycle: number;
+  feedAmountUsed: number;
+  feedSource: string;
+  harvestStartDate: string;   // or Date if you prefer
+  harvestEndDate?: string | null;
+  cycleStatus: string;
+  cycleAge: number;
+  feedConsumption: number;
+  cricketYield: number;
+  comment?: string | null;
+  breedingPenId: string;
+  createdAt: string;  // or Date
+  updatedAt: string;  // or Date
 }
 
-interface CricketFeedTableProps {
+interface CricketFeedDataTableProps {
   data: CricketFeedData[];
 }
 
-const CricketFeedTable: React.FC<CricketFeedTableProps> = ({ data }) => {
-  const columns: Column<CricketFeedData>[] = React.useMemo(
-    () => [
-      {
-        Header: "Date",
-        accessor: "date",
-      },
-      {
-        Header: "Feed Amount",
-        accessor: "feedAmount",
-      },
-    ],
-    []
-  );
-
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    nextPage,
-    previousPage,
-    state: { pageIndex },
-    pageOptions,
-  } = useTable<CricketFeedData>(
-    {
-      columns,
-      data,
-      initialState: { pageIndex: 0, pageSize: 10 },
-    },
-    useSortBy,
-    usePagination
-  );
-
+export default function CricketFeedDataTable({ data }: CricketFeedDataTableProps) {
   return (
-    <div className="m-auto mt-3 w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8">
-      {/* Overflow container for horizontal scroll */}
-      <div className="overflow-x-auto w-full">
-        <table {...getTableProps()} className="min-w-full border">
-          <thead>
-          {headerGroups.map((headerGroup: HeaderGroup<CricketFeedData>) => (
-            <tr
-              {...headerGroup.getHeaderGroupProps()}
-              className="bg-gray-200"
-            >
-              {headerGroup.headers.map((column: ColumnInstance<CricketFeedData>) => (
-                <th
-                  {...column.getHeaderProps(column.getSortByToggleProps())}
-                  className="px-4 py-2 border"
-                >
-                  {column.render("Header")}
-                  <span>
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? " 🔽"
-                          : " 🔼"
-                        : ""}
-                    </span>
-                </th>
-              ))}
-            </tr>
-          ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-          {page.map((row: Row<CricketFeedData>) => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()} className="hover:bg-gray-100">
-                {row.cells.map((cell: Cell<CricketFeedData>) => (
-                  <td {...cell.getCellProps()} className="px-4 py-2 border">
-                    {cell.render("Cell")}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
-          </tbody>
-        </table>
-      </div>
+    <div className="overflow-x-auto w-full">
+      <table className="min-w-full text-left border-collapse border border-slate-200">
+        {/* Table Head */}
+        <thead className="bg-slate-100">
+        <tr>
+          <th className="px-4 py-2 border border-slate-200">ID</th>
+          <th className="px-4 py-2 border border-slate-200">Production Cycle</th>
+          <th className="px-4 py-2 border border-slate-200">Feed Amount Used</th>
+          <th className="px-4 py-2 border border-slate-200">Feed Source</th>
+          <th className="px-4 py-2 border border-slate-200">Harvest Start</th>
+          <th className="px-4 py-2 border border-slate-200">Harvest End</th>
+          <th className="px-4 py-2 border border-slate-200">Cycle Status</th>
+          <th className="px-4 py-2 border border-slate-200">Cycle Age</th>
+          <th className="px-4 py-2 border border-slate-200">Feed Consumption</th>
+          <th className="px-4 py-2 border border-slate-200">Cricket Yield</th>
+          <th className="px-4 py-2 border border-slate-200">Comment</th>
+          <th className="px-4 py-2 border border-slate-200">Breeding Pen ID</th>
+          <th className="px-4 py-2 border border-slate-200">Created At</th>
+          <th className="px-4 py-2 border border-slate-200">Updated At</th>
+        </tr>
+        </thead>
 
-      {/* Pagination Controls */}
-      <div className="flex justify-between mt-2 w-full">
-        <button
-          onClick={() => previousPage()}
-          disabled={!canPreviousPage}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span>
-          Page{" "}
-          <strong>
-            {pageIndex + 1} of {pageOptions.length}
-          </strong>
-        </span>
-        <button
-          onClick={() => nextPage()}
-          disabled={!canNextPage}
-          className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+        {/* Table Body */}
+        <tbody>
+        {data.map((row) => (
+          <tr key={row.id} className="hover:bg-slate-50">
+            <td className="px-4 py-2 border border-slate-200">{row.id}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.productionCycle}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.feedAmountUsed}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.feedSource}</td>
+            <td className="px-4 py-2 border border-slate-200">
+              {row.harvestStartDate
+                ? new Date(row.harvestStartDate).toLocaleDateString()
+                : "N/A"}
+            </td>
+            <td className="px-4 py-2 border border-slate-200">
+              {row.harvestEndDate
+                ? new Date(row.harvestEndDate).toLocaleDateString()
+                : "N/A"}
+            </td>
+            <td className="px-4 py-2 border border-slate-200">{row.cycleStatus}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.cycleAge}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.feedConsumption}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.cricketYield}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.comment || "—"}</td>
+            <td className="px-4 py-2 border border-slate-200">{row.breedingPenId}</td>
+            <td className="px-4 py-2 border border-slate-200">
+              {new Date(row.createdAt).toLocaleString()}
+            </td>
+            <td className="px-4 py-2 border border-slate-200">
+              {new Date(row.updatedAt).toLocaleString()}
+            </td>
+          </tr>
+        ))}
+        </tbody>
+      </table>
     </div>
   );
-};
-
-export default CricketFeedTable;
+}
