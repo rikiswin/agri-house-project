@@ -22,7 +22,13 @@ interface CricketFeedLineChartProps {
   data: CricketFeedData[];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}
+
+const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white p-3 border rounded-lg shadow-lg">
@@ -34,8 +40,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
           })}
         </p>
         <p className="text-indigo-600 font-semibold">
-          <span className="text-gray-500">Feed Amount:</span>{" "}
-          {payload[0].value} grams
+          <span className="text-gray-500">Feed Amount:</span> {payload[0].value} grams
         </p>
       </div>
     );
@@ -82,18 +87,18 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
             fill: "#6b7280",
             fontSize: 12,
           }}
-          label={{
-            value: "Date",
-            position: "bottom",
-            dx: -30,
-            style: { fill: "#374151", fontSize: 14 },
-          }}
           tickFormatter={(dateStr) =>
             new Date(dateStr).toLocaleDateString("en-US", {
               month: "short",
               day: "numeric",
             })
           }
+          label={{
+            value: "Date",
+            position: "bottom",
+            style: { fill: "#374151", fontSize: 14 },
+            dx: -30
+          }}
         />
 
         <YAxis
@@ -116,8 +121,8 @@ const CricketFeedLineChart: React.FC<CricketFeedLineChartProps> = ({ data }) => 
           iconType="circle"
           iconSize={10}
           wrapperStyle={{ paddingBottom: 10 }}
-          formatter={(value) => (
-            <span className="text-gray-600 text-sm">Feed Amount (grams) </span>
+          formatter={() => (
+            <span className="text-gray-600 text-sm">Feed Amount (grams)</span>
           )}
         />
 
