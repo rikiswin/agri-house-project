@@ -1,3 +1,5 @@
+// app/dashboard/cricket/farm/[id]/page.tsx
+
 import { getCricketFarmData } from "@/lib/db/cricketData";
 import AddCricketDataFeedForm from "@/components/Forms/AddCricketDataFeedForm";
 import { Plus, Trash2 } from "lucide-react";
@@ -9,7 +11,6 @@ import { Metadata } from "next";
 import DeleteCricketFarmForm from "@/components/Forms/DeleteCricketFarmForm";
 import CricketFeedLineChart from "@/components/Graph/CricketFeedLineChart";
 import CricketFeedTable from "@/components/Graph/CricketFeedTable";
-
 
 export const metadata: Metadata = {
   title: "Cricket Farms",
@@ -24,47 +25,28 @@ export default async function CricketFarmPage({
                                               }: CricketFarmProps) {
   const cricketFarm = await getCricketFarmData(id);
 
-  const mockCricketFeedData = [
-    {
-      date: "2025-01-01",
-      feedAmount: 10,
-      // Add other fields if necessary
-    },
-    {
-      date: "2025-01-02",
-      feedAmount: 75,
-      // Add other fields if necessary
-    },
-    {
-      date: "2025-01-06",
-      feedAmount: 75,
-      // Add other fields if necessary
-    },
-    {
-      date: "2025-01-12",
-      feedAmount: 120,
-      // Add other fields if necessary
-    },
-  ];
+  if (!cricketFarm) {
+    return <p className="text-center text-red-500">Cricket Farm not found.</p>;
+  }
 
   // Aggregate all cricket feed data across breeding pens
-  // const allCricketFeedData = cricketFarm?.BreedingPen.flatMap((pen) =>
-  //   pen.CricketFeedData.map((feed) => ({
-  //     date: feed.date, // Adjust according to your data structure
-  //     feedAmount: feed.amount, // Adjust according to your data structure
-  //     // Include other fields if necessary
-  //   }))
-  // ) || [];
+  const allCricketFeedData = cricketFarm.BreedingPen.flatMap((pen) =>
+    pen.CricketFeedData.map((feed) => ({
+      date: feed.harvestStartDate.toISOString().split("T")[0], // Format Date as 'YYYY-MM-DD'
+      feedAmount: feed.feedAmountUsed,
+      // Include other fields if necessary
+    }))
+  );
 
-  const allCricketFeedData = mockCricketFeedData;
-
-
-  // Optionally, sort the data by date
-  allCricketFeedData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  // Sort the data by date
+  allCricketFeedData.sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  );
 
   return (
     <div className="flex min-h-screen flex-col px-2 pb-6 pt-28">
       <div className="flex justify-center gap-3">
+        {/* Delete Farm Sheet */}
         <Sheet>
           <SheetTrigger asChild>
             <Button className="mb-2 bg-destructive">
@@ -75,10 +57,14 @@ export default async function CricketFarmPage({
             <DeleteCricketFarmForm cricketFarmId={id} />
           </SheetContent>
         </Sheet>
+
+        {/* Edit Farm Sheet */}
         <EditCricketFarmSheet
           cricketFarmId={id}
           cricketFarmValues={cricketFarm}
         />
+
+        {/* Add Breeding Pen Sheet */}
         <Sheet>
           <SheetTrigger asChild>
             <Button className="bg-green-600 hover:bg-green-500">
@@ -93,32 +79,36 @@ export default async function CricketFarmPage({
 
       {/* Graph Section */}
       <div className="my-6">
-        <div
-          className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8"
-        >
-        <h2 className="text-2xl font-semibold mb-4 text-center">Cricket Feed Over Time</h2>
-        {allCricketFeedData.length > 0 ? (
-          <CricketFeedLineChart data={allCricketFeedData} />
-        ) : (
-          <p className="text-center text-gray-500">No feed data available to display.</p>
-        )}
+        <div className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8">
+          <h2 className="text-2xl font-semibold mb-4 text-center">
+            Cricket Feed Over Time
+          </h2>
+          {allCricketFeedData.length > 0 ? (
+            <CricketFeedLineChart data={allCricketFeedData} />
+          ) : (
+            <p className="text-center text-gray-500">
+              No feed data available to display.
+            </p>
+          )}
+        </div>
       </div>
 
       {/* Table Section */}
       <div className="my-6">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Cricket Feed Details</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-center">
+          Cricket Feed Details
+        </h2>
         {allCricketFeedData.length > 0 ? (
           <CricketFeedTable data={allCricketFeedData} />
         ) : (
-          <p className="text-center text-gray-500">No feed data available to display.</p>
+          <p className="text-center text-gray-500">
+            No feed data available to display.
+          </p>
         )}
       </div>
-      </div>
-
 
       {/* Add Cricket Data Feed Form */}
-      <AddCricketDataFeedForm breedingPens={cricketFarm?.BreedingPen} />
-
+      <AddCricketDataFeedForm breedingPens={cricketFarm.BreedingPen} />
     </div>
   );
 }
