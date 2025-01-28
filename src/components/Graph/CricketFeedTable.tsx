@@ -6,6 +6,9 @@ import {
   useSortBy,
   Column,
   usePagination,
+  HeaderGroup,
+  ColumnInstance,
+  Row,
 } from "react-table";
 
 interface CricketFeedData {
@@ -55,48 +58,53 @@ const CricketFeedTable: React.FC<CricketFeedTableProps> = ({ data }) => {
   );
 
   return (
-      <div
-        className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8"
-      >
-      <table {...getTableProps()} className="min-w-full border">
-        <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()} className="bg-gray-200">
-            {headerGroup.headers.map((column) => (
-              <th
-                {...column.getHeaderProps(column.getSortByToggleProps())}
-                className="px-4 py-2 border"
-              >
-                {column.render("Header")}
-                <span>
-                    {column.isSorted
-                      ? column.isSortedDesc
-                        ? " 🔽"
-                        : " 🔼"
-                      : ""}
-                  </span>
-              </th>
-            ))}
-          </tr>
-        ))}
-        </thead>
-        <tbody {...getTableBodyProps()}>
-        {page.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()} className="hover:bg-gray-100">
-              {row.cells.map((cell) => (
-                <td {...cell.getCellProps()} className="px-4 py-2 border">
-                  {cell.render("Cell")}
-                </td>
+    <div className="m-auto mt-3 w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8">
+      {/* Overflow container for horizontal scroll */}
+      <div className="overflow-x-auto w-full">
+        <table {...getTableProps()} className="min-w-full border">
+          <thead>
+          {headerGroups.map((headerGroup: HeaderGroup<CricketFeedData>) => (
+            <tr
+              {...headerGroup.getHeaderGroupProps()}
+              className="bg-gray-200"
+            >
+              {headerGroup.headers.map((column: ColumnInstance<CricketFeedData>) => (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  className="px-4 py-2 border"
+                >
+                  {column.render("Header")}
+                  <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? " 🔽"
+                          : " 🔼"
+                        : ""}
+                    </span>
+                </th>
               ))}
             </tr>
-          );
-        })}
-        </tbody>
-      </table>
+          ))}
+          </thead>
+          <tbody {...getTableBodyProps()}>
+          {page.map((row: Row<CricketFeedData>) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()} className="hover:bg-gray-100">
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()} className="px-4 py-2 border">
+                    {cell.render("Cell")}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+          </tbody>
+        </table>
+      </div>
+
       {/* Pagination Controls */}
-      <div className="flex justify-between mt-2">
+      <div className="flex justify-between mt-2 w-full">
         <button
           onClick={() => previousPage()}
           disabled={!canPreviousPage}
