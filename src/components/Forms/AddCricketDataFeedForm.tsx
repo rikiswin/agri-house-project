@@ -41,8 +41,8 @@ interface AddCricketDataFeedFormProps {
 }
 
 export default function AddCricketDataFeedForm({
-                                                 breedingPens,
-                                               }: AddCricketDataFeedFormProps) {
+  breedingPens,
+}: AddCricketDataFeedFormProps) {
   const form = useForm<z.infer<typeof createCricketFeedDataSchema>>({
     resolver: zodResolver(createCricketFeedDataSchema),
   });
@@ -52,13 +52,8 @@ export default function AddCricketDataFeedForm({
   } = form;
 
   async function onSubmit(values: z.infer<typeof createCricketFeedDataSchema>) {
-    try {
-      await addCricketFeedData(values);
-      toast.success("Successfully Added!");
-    } catch (error) {
-      console.error("Error adding cricket feed data:", error);
-      toast.error("Failed to add cricket feed data.");
-    }
+    await addCricketFeedData(values);
+    toast.success("Successfully Added!");
   }
 
   return (
@@ -70,7 +65,6 @@ export default function AddCricketDataFeedForm({
         <h1 className="text-xl font-extrabold tracking-tight text-black md:text-3xl lg:text-4xl">
           Add Cricket Feed Data
         </h1>
-        {/* Breeding Pen Selection */}
         <FormField
           control={form.control}
           name="breedingPenId"
@@ -99,10 +93,7 @@ export default function AddCricketDataFeedForm({
                     {breedingPens &&
                       breedingPens.length > 0 &&
                       breedingPens.map((breedingPen) => (
-                        <SelectItem
-                          key={breedingPen.id}
-                          value={breedingPen.id}
-                        >
+                        <SelectItem key={breedingPen.id} value={breedingPen.id}>
                           {breedingPen.breedingPenCode}
                         </SelectItem>
                       ))}
@@ -113,7 +104,6 @@ export default function AddCricketDataFeedForm({
             </FormItem>
           )}
         />
-        {/* Production Cycle */}
         <FormField
           control={form.control}
           name="productionCycle"
@@ -121,17 +111,12 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Production Cycle</FormLabel>
               <FormControl>
-                <Input
-                  type="number" // Changed to number
-                  placeholder="Enter the production cycle"
-                  {...field}
-                />
+                <Input placeholder="Enter the production cycle" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Feed Source */}
         <FormField
           control={form.control}
           name="feedSource"
@@ -139,17 +124,12 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Feed Source</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="Enter the feed source"
-                  {...field}
-                />
+                <Input placeholder="Enter the feed source" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Feed Amount Used */}
         <FormField
           control={form.control}
           name="feedAmountUsed"
@@ -157,17 +137,25 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Feed Amount Used</FormLabel>
               <FormControl>
-                <Input
-                  type="number" // Changed to number
-                  placeholder="Enter the feed amount used"
-                  {...field}
-                />
+                <Input placeholder="Enter the feed amount used" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Cricket Yield */}
+        <FormField
+          control={form.control}
+          name="feedConsumption"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Feed Consumption</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter the feed consumption" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="cricketYield"
@@ -175,17 +163,12 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Cricket Yield</FormLabel>
               <FormControl>
-                <Input
-                  type="number" // Changed to number
-                  placeholder="Enter the cricket yield"
-                  {...field}
-                />
+                <Input placeholder="Enter the cricket yield" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Cycle Age */}
         <FormField
           control={form.control}
           name="cycleAge"
@@ -193,17 +176,12 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Cycle Age</FormLabel>
               <FormControl>
-                <Input
-                  type="number" // Changed to number
-                  placeholder="Enter the cycle age"
-                  {...field}
-                />
+                <Input placeholder="Enter the cycle age" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Cycle Status */}
         <FormField
           control={form.control}
           name="cycleStatus"
@@ -211,17 +189,12 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Cycle Status</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="Enter the cycle status"
-                  {...field}
-                />
+                <Input placeholder="Enter the cycle status" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Comment */}
         <FormField
           control={form.control}
           name="comment"
@@ -229,20 +202,15 @@ export default function AddCricketDataFeedForm({
             <FormItem className="w-full">
               <FormLabel>Comment</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="Enter a comment"
-                  {...field}
-                />
+                <Input placeholder="Enter a comment" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Feed Date */}
         <FormField
           control={form.control}
-          name="feedDate" // Renamed from harvestStartDate
+          name="harvestStartDate"
           render={({ field }) => (
             <FormItem className="flex w-full flex-col">
               <FormLabel>Feed Date</FormLabel>
@@ -257,7 +225,7 @@ export default function AddCricketDataFeedForm({
                       )}
                     >
                       {field.value ? (
-                        format(new Date(field.value), "PPP")
+                        format(field.value, "PPP")
                       ) : (
                         <span>Pick a feed date</span>
                       )}
@@ -265,14 +233,13 @@ export default function AddCricketDataFeedForm({
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent
+                    {...field}
                     className="w-auto p-0"
                     align="start"
                   >
                     <Calendar
                       selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={(date: Date) =>
-                        field.onChange(date.toISOString())
-                      }
+                      onSelect={field.onChange}
                       mode="single"
                     />
                   </PopoverContent>
@@ -282,7 +249,47 @@ export default function AddCricketDataFeedForm({
             </FormItem>
           )}
         />
-        {/* Submit Button */}
+        {/*<FormField*/}
+        {/*  control={form.control}*/}
+        {/*  name="harvestEndDate"*/}
+        {/*  render={({ field }) => (*/}
+        {/*    <FormItem className="flex w-full flex-col">*/}
+        {/*      <FormLabel>Harvest End Date</FormLabel>*/}
+        {/*      <FormControl>*/}
+        {/*        <Popover>*/}
+        {/*          <PopoverTrigger asChild>*/}
+        {/*            <Button*/}
+        {/*              variant={"outline"}*/}
+        {/*              className={cn(*/}
+        {/*                "w-[240px] pl-3 text-left font-normal",*/}
+        {/*                !field.value && "text-muted-foreground",*/}
+        {/*              )}*/}
+        {/*            >*/}
+        {/*              {field.value ? (*/}
+        {/*                format(field.value, "PPP")*/}
+        {/*              ) : (*/}
+        {/*                <span>Pick harvest end date</span>*/}
+        {/*              )}*/}
+        {/*              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />*/}
+        {/*            </Button>*/}
+        {/*          </PopoverTrigger>*/}
+        {/*          <PopoverContent*/}
+        {/*            {...field}*/}
+        {/*            className="w-auto p-0"*/}
+        {/*            align="start"*/}
+        {/*          >*/}
+        {/*            <Calendar*/}
+        {/*              selected={field.value ? new Date(field.value) : undefined}*/}
+        {/*              onSelect={field.onChange}*/}
+        {/*              mode="single"*/}
+        {/*            />*/}
+        {/*          </PopoverContent>*/}
+        {/*        </Popover>*/}
+        {/*      </FormControl>*/}
+        {/*      <FormMessage />*/}
+        {/*    </FormItem>*/}
+        {/*  )}*/}
+        {/*/>*/}
         <FormSubmitButton
           isLoading={isSubmitting}
           className="w-full"
