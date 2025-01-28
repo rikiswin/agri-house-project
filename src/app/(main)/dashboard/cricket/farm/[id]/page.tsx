@@ -27,12 +27,22 @@ export default async function CricketFarmPage({
   const mockCricketFeedData = [
     {
       date: "2025-01-01",
-      feedAmount: 50,
+      feedAmount: 10,
       // Add other fields if necessary
     },
     {
       date: "2025-01-02",
       feedAmount: 75,
+      // Add other fields if necessary
+    },
+    {
+      date: "2025-01-06",
+      feedAmount: 75,
+      // Add other fields if necessary
+    },
+    {
+      date: "2025-01-12",
+      feedAmount: 120,
       // Add other fields if necessary
     },
   ];
@@ -83,6 +93,9 @@ export default async function CricketFarmPage({
 
       {/* Graph Section */}
       <div className="my-6">
+        <div
+          className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8"
+        >
         <h2 className="text-2xl font-semibold mb-4 text-center">Cricket Feed Over Time</h2>
         {allCricketFeedData.length > 0 ? (
           <CricketFeedLineChart data={allCricketFeedData} />
@@ -100,9 +113,12 @@ export default async function CricketFarmPage({
           <p className="text-center text-gray-500">No feed data available to display.</p>
         )}
       </div>
+      </div>
+
 
       {/* Add Cricket Data Feed Form */}
       <AddCricketDataFeedForm breedingPens={cricketFarm?.BreedingPen} />
+
     </div>
   );
 }

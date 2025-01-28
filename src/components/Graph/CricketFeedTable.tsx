@@ -55,7 +55,9 @@ const CricketFeedTable: React.FC<CricketFeedTableProps> = ({ data }) => {
   );
 
   return (
-    <>
+      <div
+        className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8"
+      >
       <table {...getTableProps()} className="min-w-full border">
         <thead>
         {headerGroups.map((headerGroup) => (
@@ -116,7 +118,7 @@ const CricketFeedTable: React.FC<CricketFeedTableProps> = ({ data }) => {
           Next
         </button>
       </div>
-    </>
+    </div>
   );
 };
 
