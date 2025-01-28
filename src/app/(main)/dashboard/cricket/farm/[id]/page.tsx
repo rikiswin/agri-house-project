@@ -102,6 +102,7 @@ export default async function CricketFarmPage({ params: { id } }: CricketFarmPro
 
       {/* Table Section */}
       <div className="my-6">
+        <div className="m-auto mt-3 flex w-full max-w-xl flex-col items-center justify-center gap-3 rounded-lg border-2 bg-slate-50 p-8 px-4 lg:px-8">
         <h2 className="text-2xl font-semibold mb-4 text-center">
           Cricket Feed Details
         </h2>
@@ -116,6 +117,7 @@ export default async function CricketFarmPage({ params: { id } }: CricketFarmPro
 
       {/* Add Cricket Data Feed Form */}
       <AddCricketDataFeedForm breedingPens={cricketFarm.BreedingPen} />
+        </div>
     </div>
   );
 }
